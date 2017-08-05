@@ -1,18 +1,16 @@
 /*
 Author: Jorge Meza
 Program CodeName: Stellar-Traveling-Estimation
-					STE
+STE
 Menu
 -- Create Your Spacecraft Speeed Arrival Document
-
-1. Earth-To-Mercury //Dist 48 million miles> 1.1 
+1. Earth-To-Mercury //Dist 48 million miles> 1.1
 2. Earth-To-Venus	//Dist	93 million miles
 3. Earth-To-Mars	//Dist	33.9 Millio nmiles
 4. Earth-To-Marsr	//Dist	365 million miles
 5. Earth-To-Saturn	//Dist 746 million miles
 6. Earth-To-Neptune	//Dist 2.7billion miles
 7. Meteor_Churyumov //Dist 317 Million miles
-
 */
 #include <iostream>
 #include <cmath>
@@ -30,10 +28,11 @@ long const int E_Jupiter = 365000000;
 long const int E_Saturn = 746000000;
 long const int E_Neptune = 2700000000;
 long const int Meteor_Churyumov = 317000000;//Meteor
-//End global constant variables
+											//End global constant variables
 
 
-void EarthToCalc(int&,int &,int,int&,int&);
+void EarthToCalc(int&, int &, int, int&, int&);
+void SaveToFile(string &, int&, int&, int&);
 void Menu();
 
 int main() {
@@ -49,37 +48,44 @@ int main() {
 		cin >> choice;
 		switch (choice) {
 		case 1:cout << "Mercury is " << E_Merc << " miles away from Earth.\n";
-			EarthToCalc(distance,hours,E_Merc,speed,choice2);
-			break;
-		case 2:cout << "Venus is " << E_Venus <<  " miles away from Earth.\n";
-			EarthToCalc(distance, hours, E_Venus,speed,choice2);
-			break;
+			EarthToCalc(distance, hours, E_Merc, speed, choice2);
+			SaveToFile(filename, distance, hours, speed);
+				break;
+		case 2:cout << "Venus is " << E_Venus << " miles away from Earth.\n";
+			EarthToCalc(distance, hours, E_Venus, speed, choice2);
+			SaveToFile(filename, distance, hours, speed);
+				break;
 		case 3:cout << "Mars is " << E_Mars << " miles away from Earth.\n";
-			EarthToCalc(distance, hours, E_Mars,speed,choice2);
-			break;
+			EarthToCalc(distance, hours, E_Mars, speed, choice2);
+			SaveToFile(filename, distance, hours, speed);
+				break;
 		case 4:cout << "Jupiter is " << E_Jupiter << " miles away from Earth.\n";
-			EarthToCalc(distance, hours, E_Jupiter,speed,choice2);
-			break;
+			EarthToCalc(distance, hours, E_Jupiter, speed, choice2);
+			SaveToFile(filename, distance, hours, speed);
+				break;
 		case 5:cout << "Saturn is " << E_Saturn << " miles away from Earth.\n";
-			EarthToCalc(distance, hours, E_Saturn,speed,choice2);
-			break;
+			EarthToCalc(distance, hours, E_Saturn, speed, choice2);
+			SaveToFile(filename, distance, hours, speed);
+				break;
 		case 6:cout << "Neptune is " << E_Neptune << " miles away from Earth.\n";
-			EarthToCalc(distance, hours, E_Neptune,speed,choice2);
-			break;
+			EarthToCalc(distance, hours, E_Neptune, speed, choice2);
+			SaveToFile(filename, distance, hours, speed);
+				break;
 		case 7:cout << "Meteor Churyumov is " << Meteor_Churyumov << " miles away from Earth.\n";
-			EarthToCalc(distance, hours, Meteor_Churyumov,speed,choice2);
-			break;
+			EarthToCalc(distance, hours, Meteor_Churyumov, speed, choice2);
+			SaveToFile(filename, distance, hours, speed);
+				break;
 		default:exit(1);
 			break;
 
-	}
-	}while (choice!=8);
+		}
+	} while (choice != 8);
 	system("cls");
 	return main();
 	system("pause");
 	return 0;
 }
-void EarthToCalc(int& distance, int &hours, int destination, int &speed,int &choice2) {
+void EarthToCalc(int& distance, int &hours, int destination, int &speed, int &choice2) {
 	do {
 		cout << "Spacecraft Speed[1600.90]: ";
 		cin >> speed;
@@ -88,17 +94,32 @@ void EarthToCalc(int& distance, int &hours, int destination, int &speed,int &cho
 		for (int index = 0; index <= destination; index++) {
 			distance = index*speed;
 			//cout << index << setw(6) << " " << distance << endl;
-			/*if (distance >= destination) {						
-				cout << "At that speed it takes "<<index<<" hours to get there.";
-			}*/			
-				if (distance >= destination) {
-					cout << "Destination Reached with Speed set " << speed << " miles/h\n";
-					cout << "Hours to get there: " << index << endl;
-					system("pause");
-				}
-		
+			/*if (distance >= destination) {
+			cout << "At that speed it takes "<<index<<" hours to get there.";
+			}*/
+			if (distance >= destination) {
+				cout << "Destination Reached with Speed set " << speed << " miles/h\n";
+				cout << "Hours to get there: " << index << endl;
+				system("pause");
+				return;
+			}
+
 		}
-	}while(distance!=destination);
+	} while (distance >= destination);
+}
+void SaveToFile(string &filename, int &distance, int &hours, int &speed) {//Display Destination
+	ofstream outputfile;
+	cout << "FIlename[Text.txt]: ";
+	cin >> filename;
+	outputfile.open(filename);
+	//for(int start=0;start<=destination;start++)
+	outputfile << distance << " Distance" << endl;
+	outputfile << hours << " HOurs" << endl;
+	outputfile << speed << " Speed" << endl;
+	outputfile.close();
+
+
+
 }
 void Menu() {
 	cout << "Spacecraft Arrival Calculator\n";
