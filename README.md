@@ -11,6 +11,6 @@ and i will also add more destinations or the user can input the destination just
 
 Updated version 2.0
 Version 3 will:
-implementation calculate an steroid impact and save info
+implementation calculate an steroid impact and save info more organization
 
 */
